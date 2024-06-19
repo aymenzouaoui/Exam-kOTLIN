@@ -83,18 +83,6 @@ class LoginActivity : AppCompatActivity() {
 
                 }
 
-
-                val database = AppDatabase.getDatabase(it.context)
-              database.userDao().insetUser(
-                  User(email = binding.tiEmail.text.toString(),
-                      password = binding.tiPassword.text.toString())
-
-
-
-              )
-
-                startActivity(Intent(this@LoginActivity, MainActivity::class.java))
-                finish()
                 RetrofitImp.buildRetrofit().create(UserInterface::class.java).login(
                     User(email = binding.tiEmail.text.toString(),
                         password = binding.tiPassword.text.toString())
@@ -137,19 +125,14 @@ class LoginActivity : AppCompatActivity() {
             binding.tiEmailLayout.isErrorEnabled = false
         }
 
-        if (Patterns.EMAIL_ADDRESS.matcher(binding.tiEmail.text.toString()).matches()) {
-            binding.tiEmailLayout.error = getString(R.string.msg_check_your_email)
-            binding.tiEmail.requestFocus()
-            return false
-        } else {
-            binding.tiEmailLayout.isErrorEnabled = false
-        }
+
 
         return true
     }
 
     private fun validatePassword(): Boolean {
         binding.tiPasswordLayout.isErrorEnabled = false
+
 
         if (binding.tiPassword.text.toString().isEmpty()) {
             binding.tiPasswordLayout.error = getString(R.string.msg_must_not_be_empty)
